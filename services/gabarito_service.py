@@ -1,5 +1,7 @@
-from data.models.gabarito_model import GabaritoModel
 import csv
+
+from data.models.gabarito_model import GabaritoModel
+
 
 def persistir_gabarito(data: GabaritoModel):
     with open('arquivos/gabaritos.csv', 'a', newline='') as file:
