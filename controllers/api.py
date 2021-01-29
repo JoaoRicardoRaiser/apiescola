@@ -7,6 +7,7 @@ from data.models.resposta_model import RespostaModel
 from services.buscar_notas_alunos_service import buscar_notas_alunos
 from services.gabarito_service import persistir_gabarito
 from services.resposta_service import persistir_resposta
+from services.transformar_notas_em_resultado import transformar_notas_em_resultado
 
 app = Flask(__name__)
 
@@ -26,8 +27,16 @@ def tratar_resposta():
     persistir_resposta(resposta_model)
     return jsonify("A persistencia dos dados foram efetuados com sucesso")
 
+
 @app.route('/notas', methods=["GET"])
 def tratar_notas():
     notas_alunos = buscar_notas_alunos()
     resposta = json.dumps([nota.__dict__ for nota in notas_alunos])
+    return jsonify(json.loads(resposta))
+
+
+@app.route('/aprovados', methods=["GET"])
+def tratar_aprovados():
+    aprovados = transformar_notas_em_resultado()
+    resposta = json.dumps([aprovado.__dict__ for aprovado in aprovados])
     return jsonify(json.loads(resposta))
