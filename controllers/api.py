@@ -13,30 +13,42 @@ app = Flask(__name__)
 
 
 @app.route('/gabarito', methods=["POST"])
-def hello_world():
-    data = request.json
-    gabarito_model = GabaritoModel(**data)
-    persistir_gabarito(gabarito_model)
-    return jsonify("deu boa"), 200
+def tratar_gabarito():
+    try:
+        data = request.json
+        gabarito_model = GabaritoModel(**data)
+        persistir_gabarito(gabarito_model)
+        return jsonify("A persistência do gabarito foi realizada com sucesso!"), 200
+    except Exception as exception:
+        return jsonify(f"Um erro inesperado ocorreu: {exception}"), 400
 
 
 @app.route('/resposta', methods=["POST"])
 def tratar_resposta():
-    data = request.json
-    resposta_model = RespostaModel(**data)
-    persistir_resposta(resposta_model)
-    return jsonify("A persistencia dos dados foram efetuados com sucesso")
+    try:
+        data = request.json
+        resposta_model = RespostaModel(**data)
+        persistir_resposta(resposta_model)
+        return jsonify("A persistência da resposta foi realizada com sucesso!"), 200
+    except Exception as exception:
+        return jsonify(f"Um erro inesperado ocorreu: {exception}"), 400
 
 
 @app.route('/notas', methods=["GET"])
 def tratar_notas():
-    notas_alunos = buscar_notas_alunos()
-    resposta = json.dumps([nota.__dict__ for nota in notas_alunos])
-    return jsonify(json.loads(resposta))
+    try:
+        notas_alunos = buscar_notas_alunos()
+        resposta = json.dumps([nota.__dict__ for nota in notas_alunos])
+        return jsonify(json.loads(resposta)), 200
+    except Exception as exception:
+        return jsonify(f"Um erro inesperado ocorreu: {exception}"), 400
 
 
 @app.route('/aprovados', methods=["GET"])
 def tratar_aprovados():
-    aprovados = transformar_notas_em_resultado()
-    resposta = json.dumps([aprovado.__dict__ for aprovado in aprovados])
-    return jsonify(json.loads(resposta))
+    try:
+        aprovados = transformar_notas_em_resultado()
+        resposta = json.dumps([aprovado.__dict__ for aprovado in aprovados])
+        return jsonify(json.loads(resposta)), 200
+    except Exception as exception:
+        return jsonify(f"Um erro inesperado ocorreu: {exception}"), 400

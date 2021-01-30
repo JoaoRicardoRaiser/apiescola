@@ -1,5 +1,5 @@
 import csv
-from typing import Dict, List
+from typing import List
 
 from data.models.aluno_nota_model import AlunoNotaModel
 from data.models.gabarito_model import GabaritoModel
@@ -48,7 +48,7 @@ def buscar_notas_alunos() -> List[AlunoNotaModel]:
     return lista_aluno_notas
 
 
-def calcula_nota(gabarito: GabaritoModel, resposta: RespostaModel):
+def calcula_nota(gabarito: GabaritoModel, resposta: RespostaModel) -> AlunoNotaModel:
     nota = 0
     quantidade_respostas = 6
     for i in range(1, quantidade_respostas):
